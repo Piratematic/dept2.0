@@ -3,26 +3,31 @@ import axios from "axios";
 import { Card, Header, Button, } from 'semantic-ui-react';
 import { Link, } from 'react-router-dom';
 
-class Depts extends React.Component {
-  state = { depts: [], };
+class Departments extends React.Component {
+  state = { departments: [], };
 
   componentDidMount() {
-    axios.get("/api/depts")
+    axios.get("/api/departments")
       .then( res => {
-        this.setState({ depts: res.data, });
+        this.setState({ departments: res.data, });
       })
   }
 
-  renderProducts = () => {
-    const { depts, } = this.state;
+  renderDepartments = () => {
+    const { departments, } = this.state;
 
-    if (depts.length <= 0)
-      return <h2>No Depts</h2>
-    return depts.map( department => (
+    if (departments.length <= 0)
+      return <h2>No Departments</h2>
+    return departments.map( department => (
       <Card>
         <Card.Content>
           <Card.Header>{ department.name }</Card.Header>
         </Card.Content>
+        <Card.Contend extra>
+          <Button as={Link} to={`/departments/${department.id}`} color="green">
+            View
+          </Button>
+        </Card.Contend>
       </Card>
     ))
   }
@@ -30,7 +35,7 @@ class Depts extends React.Component {
   render() {
     return (
       <div>
-        <Header as="h1">Depts</Header>
+        <Header as="h1">Departments</Header>
         <br />
         <Button as={Link} color="blue" to="departments/new">
           Add Department
@@ -38,11 +43,11 @@ class Depts extends React.Component {
         <br />
         <br />
         <Card.Group>
-          { this.renderDepts() }
+          { this.renderDepartments() }
         </Card.Group>
       </div>
     )
   }
 }
 
-export default Depts;
+export default Departments;
